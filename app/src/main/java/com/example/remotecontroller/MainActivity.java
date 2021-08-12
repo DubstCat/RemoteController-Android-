@@ -42,6 +42,8 @@ public class MainActivity extends AppCompatActivity {
         switch (v.getId()) // id кнопок
         {
             case R.id.btnSMsg: // отправить сообщение
+                EditText etMsg = (EditText) findViewById(R.id.etMsg);
+                msg = etMsg.getText().toString();
                 if (!msg.isEmpty()) {
                     codeCommand = codeMsg;
                     sender.execute();
