@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -27,19 +28,34 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Button btn_touchpad = findViewById(R.id.btn_touchpad);
+        btn_touchpad.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startNewActivity();
+            }
+        });
+    }
+
+    public void startNewActivity(){
+        Intent intent = new Intent(this, TouchpadActivity.class);
+        intent.putExtra("serIpAddress", serIpAddress);
+        intent.putExtra("port", port);
+        startActivity(intent);
     }
 
     public void onClick(View v) {
-        // получаем строку в поле ip адреса
-        EditText etIPaddress = (EditText) findViewById(R.id.edIPaddress);
-        serIpAddress = etIPaddress.getText().toString();
-        // если поле не заполнено, то выводим сообщение об ошибке
-        if (serIpAddress.isEmpty()) {
-            Toast msgToast = Toast.makeText(this, "Введите ip адрес", Toast.LENGTH_SHORT);
-            msgToast.show();
-            return;
-        }
-        SenderThread sender = new SenderThread(); // объект представляющий поток отправки сообщений
+            // получаем строку в поле ip адреса
+            EditText etIPaddress = (EditText) findViewById(R.id.edIPaddress);
+            serIpAddress = etIPaddress.getText().toString();
+            // если поле не заполнено, то выводим сообщение об ошибке
+            if (serIpAddress.isEmpty()) {
+                Toast msgToast = Toast.makeText(this, "Введите ip адрес", Toast.LENGTH_SHORT);
+                msgToast.show();
+                return;
+            }
+            SenderThread sender = new SenderThread(); // объект представляющий поток отправки сообщений
+
         switch (v.getId()) // id кнопок
         {
             case R.id.btnSMsg: // отправить сообщение
@@ -61,12 +77,6 @@ public class MainActivity extends AppCompatActivity {
             case R.id.btnPowerOff: // выключить
                 codeCommand = codePoff;
                 sender.execute();
-                break;
-            case R.id.btn_touchpad:
-                Intent intent = new Intent(this, TouchpadActivity.class);
-                intent.putExtra("serIpAdress", serIpAddress);
-                intent.putExtra("port", port);
-                startActivity(intent);
                 break;
         }
     }

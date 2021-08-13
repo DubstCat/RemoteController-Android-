@@ -3,11 +3,13 @@ package com.example.remotecontroller;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.opengl.GLSurfaceView;
 import android.opengl.GLSurfaceView.Renderer;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 
 import java.io.DataOutputStream;
@@ -43,6 +45,7 @@ public class TouchpadActivity extends AppCompatActivity {
             switch (e.getAction()) {
                 case MotionEvent.ACTION_MOVE:
                     sender = new SenderThread();
+                    Log.d("TAG",String.valueOf(MouseX));
                     sender.execute();
                     break;
             }
@@ -107,6 +110,9 @@ public class TouchpadActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Intent intent = getIntent();
+        serIpAddress = intent.getStringExtra("serIpAddress");
+        port = intent.getIntExtra("port", 10000);
         view = new TouchpadGLSurfaceView(this);
         TouchpadRenderer touchpadRenderer = new TouchpadRenderer();
         view.setRenderer(touchpadRenderer);
