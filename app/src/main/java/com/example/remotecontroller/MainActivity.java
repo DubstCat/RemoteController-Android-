@@ -2,6 +2,7 @@ package com.example.remotecontroller;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
@@ -60,6 +61,12 @@ public class MainActivity extends AppCompatActivity {
             case R.id.btnPowerOff: // выключить
                 codeCommand = codePoff;
                 sender.execute();
+                break;
+            case R.id.btn_touchpad:
+                Intent intent = new Intent(this, TouchpadActivity.class);
+                intent.putExtra("serIpAdress", serIpAddress);
+                intent.putExtra("port", port);
+                startActivity(intent);
                 break;
         }
     }
